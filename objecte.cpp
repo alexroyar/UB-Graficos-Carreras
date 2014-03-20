@@ -129,7 +129,7 @@ void Objecte::draw()
     program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4) * Index, 4);
 
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//GL_LINE MODIFICADO
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//GL_FILL MODIFICADO
     glDrawArrays( GL_TRIANGLES, 0, Index );
 
     // Abans nomes es feia: glDrawArrays( GL_TRIANGLES, 0, NumVerticesP );
