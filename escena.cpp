@@ -10,6 +10,7 @@ escena::escena()
     capsaMinima.a = 1; capsaMinima.h = 1; capsaMinima.p = 1;
 
     cotxe = NULL;
+    terra = NULL;
 }
 
 
@@ -22,6 +23,8 @@ escena::~escena()
 void escena::addObjecte(Objecte *obj) {
     if (dynamic_cast<Cotxe*>(obj))
         this->cotxe = (Cotxe*)obj;
+    if (dynamic_cast<Terra*>(obj))
+        this->terra = (Terra*)obj;
 }
 
 
@@ -36,6 +39,8 @@ void escena::aplicaTG(mat4 m) {
 
     if (cotxe!=NULL)
         cotxe->aplicaTG(m);
+    if (terra!=NULL)
+        terra->aplicaTG(m);
 
 }
 
@@ -46,6 +51,9 @@ void escena::aplicaTGCentrat(mat4 m) {
     if (cotxe!=NULL)
         cotxe->aplicaTGCentrat(m);
 
+    if (terra!=NULL)
+        terra->aplicaTGCentrat(m);
+
 }
 
 void escena::draw() {
@@ -54,6 +62,8 @@ void escena::draw() {
 
     if (cotxe!=NULL)
         cotxe->draw();
+    if (terra!=NULL)
+        terra->draw();
 
 }
 
@@ -63,6 +73,8 @@ void escena::reset() {
 
     if (cotxe!=NULL)
         cotxe->make();
+    if (terra!=NULL)
+        terra->make();
 
 }
 

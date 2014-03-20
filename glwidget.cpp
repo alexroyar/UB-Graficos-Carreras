@@ -133,6 +133,10 @@ void GLWidget::newTerra(float amplaria, float profunditat, float y)
     // (quadrat d'una certa mida amb origen a xorig, yorig, zorig
 
     // Metode a implementar
+    Terra *terra;
+
+    terra = new Terra(0.,0.,0.);
+    newObjecte(terra);
 
  }
 
