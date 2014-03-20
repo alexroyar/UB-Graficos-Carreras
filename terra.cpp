@@ -8,7 +8,7 @@ Terra::Terra(float amplaria, float profunditat, float y):Objecte(NumVerticesT)
     yorig = 0;
     zorig = 0;
 
-    xRot = 2.;
+    xRot = 0;
     yRot = 0;
     zRot = 0;
 
@@ -44,5 +44,5 @@ void Terra::make()
     std::cout<<"Estic en el make del terra\n";
     // generacio de la geometria dels triangles per a visualitzar-lo
     Index = 0;
-    quad( 6, 5, 1, 2 );
+    quad( 1, 0, 2, 3);
 }

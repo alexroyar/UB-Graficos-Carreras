@@ -154,7 +154,7 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
 void GLWidget::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 
     std::cout<<"Estic inicialitzant el shaders"<<std::ends;
     initShadersGPU();
@@ -193,6 +193,10 @@ void GLWidget::paintGL()
 
     if (esc->cotxe!=NULL) {
         esc->cotxe->aplicaTGCentrat(transform);
+        esc->draw();
+    }
+    if (esc->terra!=NULL) {
+        esc->terra->aplicaTGCentrat(transform);
         esc->draw();
     }
 }
