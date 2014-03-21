@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     newobstacledialog.cpp \
     newterradialog.cpp \
     terra.cpp \
-    readfile.cpp
+    readfile.cpp \
+    roda.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
@@ -39,7 +40,8 @@ HEADERS  += mainwindow.h \
     newobstacledialog.h \
     newterradialog.h \
     readfile.h \
-    terra.h
+    terra.h \
+    roda.h
 
 FORMS    += mainwindow.ui \
     newcotxedialog.ui \

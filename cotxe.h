@@ -3,7 +3,7 @@
 
 #include <Common.h>
 #include <objecte.h>
-
+#include <roda.h>
 #include <iostream>
 
 using namespace std;
@@ -20,12 +20,12 @@ public:
     void turnleft();
     void turnright();
     point4 direction;
+    vector<Roda> ruedas;
     virtual void readObj(QString filename);
 
 private:
     static const int NumVerticesF = 100000;
     static const int NumCares = 300000;
-
 
 };
 

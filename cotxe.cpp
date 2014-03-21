@@ -31,11 +31,16 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     // El seguent codi escala el cotxe entre 0 i 1 i el situa el seu centre  0,0,0. aixo fa que es vegi en la primera visualització
     //
     // Cal modificar el codi seguent
+
     xorig = x0;
     yorig = y0;
     zorig = z0;
+
+
     readObj(n);
     make();
+
+
 
     double escalaX = 1.0 / 4.6;
     //mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale(escalaX, escalaX, escalaX)*Translate(+1.93, -0.26, 2.16);
@@ -47,7 +52,6 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
 
 void Cotxe::readObj(QString filename)
 {
-
     FILE *fp = fopen(filename.toLocal8Bit(),"rb");
     if (!fp)
     {
@@ -103,6 +107,7 @@ void Cotxe::readObj(QString filename)
                   z/=w;
                 }
                 // S'afegeix el vertex a l'objecte
+
                 vertexs.push_back(point4(x, y, z, 1));
                 vindexAct++;
 
@@ -129,7 +134,10 @@ void Cotxe::readObj(QString filename)
                 //cada nou objecte s'actualitza aquest Ã­ndex
                 vindexUlt = vindexAct;
                 char * second_word = ReadFile::words[1];
-
+                if(!strcmp(second_word,"Roda_Esquerra_Posterior_Untitled")){
+                    cout << "Rueda posterior Izquierda" << endl;
+                    ruedas.push_back(Roda());
+                }
 
             }
             // fadded
