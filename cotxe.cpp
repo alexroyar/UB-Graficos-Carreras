@@ -34,7 +34,8 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     xorig = x0;
     yorig = y0;
     zorig = z0;
-
+    readObj(n);
+    make();
 
     double escalaX = 1.0 / 4.6;
     //mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale(escalaX, escalaX, escalaX)*Translate(+1.93, -0.26, 2.16);
@@ -42,7 +43,6 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
 
 
     aplicaTG(m);
-
 }
 
 void Cotxe::readObj(QString filename)
@@ -114,6 +114,7 @@ void Cotxe::readObj(QString filename)
             else if (!strcmp (first_word, "f")) {
                 // S'afegeix la cara a l'objecte
                 construeix_cara (&ReadFile::words[1], nwords-1, this, vindexUlt);
+
             }
             // added
             else if (!strcmp (first_word, "mtllib")) {
@@ -127,6 +128,9 @@ void Cotxe::readObj(QString filename)
             else if (!strcmp (first_word, "o")) {
                 //cada nou objecte s'actualitza aquest Ã­ndex
                 vindexUlt = vindexAct;
+                char * second_word = ReadFile::words[1];
+
+
             }
             // fadded
             else {
