@@ -1,4 +1,5 @@
 #include "cotxe.h"
+#include "readfile.h"
 
 Cotxe::Cotxe(QString n) : Objecte(NumVerticesF)
 {
