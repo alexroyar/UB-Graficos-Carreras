@@ -80,7 +80,7 @@ public:
     void aplicaTGCentrat(mat4 m);
 
 private:
-    void construeix_cara ( char **words, int nwords);
+    void construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt);
 
 };
 
