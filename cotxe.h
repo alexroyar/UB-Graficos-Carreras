@@ -22,6 +22,8 @@ public:
     void turnright();
     point4 direction;
 
+    virtual void readObj(QString filename);
+
 private:
 
     static const int NumVerticesF = 100000;
