@@ -145,7 +145,7 @@ void Cotxe::readObj(QString filename)
                 if(!strcmp(second_word,"Roda_Esquerra_Posterior_Untitled")){
                     cout << "Rueda posterior Izquierda" << endl;
                     rueda_izquierda_posterior=new Roda("Roda_Esquerra_Posterior_Untitled");
-                    rueda='3';
+                    rueda='1';
                 }
 
             }

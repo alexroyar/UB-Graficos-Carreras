@@ -9,7 +9,7 @@ class Roda : public Objecte
 public:
     Roda(QString n);
     void add_vector(point4 p);
-    static const int NumVerticesR = 3;
+    static const int NumVerticesR = 100000;
 
 };
 
