@@ -36,8 +36,10 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     zorig = z0;
 
 
+
     readObj(n);
     make();
+
 
 
 
@@ -47,6 +49,7 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
 
 
     aplicaTG(m);
+
 }
 
 void Cotxe::readObj(QString filename)
@@ -126,6 +129,7 @@ void Cotxe::readObj(QString filename)
             }
             else if (!strcmp (first_word, "f")) {
                 // S'afegeix la cara a l'objecte
+
                 switch (rueda) {
                 case '1':
                     construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_posterior, vindexUlt);
@@ -135,6 +139,8 @@ void Cotxe::readObj(QString filename)
                     break;
                 }
 
+
+                construeix_cara (&ReadFile::words[1], nwords-1, this, vindexUlt);
 
             }
             // added
@@ -149,6 +155,7 @@ void Cotxe::readObj(QString filename)
             else if (!strcmp (first_word, "o")) {
                 //cada nou objecte s'actualitza aquest Ã­ndex
                 vindexUlt = vindexAct;
+
                 char * second_word = ReadFile::words[1];
                 //Roda_Dreta_Posterior_04
                 if(!strcmp(second_word,"Roda_")){
@@ -158,6 +165,7 @@ void Cotxe::readObj(QString filename)
                 }else{
                     rueda='0';
                 }
+
 
             }
             // fadded

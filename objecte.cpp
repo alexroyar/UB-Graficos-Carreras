@@ -27,9 +27,9 @@ Objecte::Objecte(int npoints, QString n, GLdouble tamanio, GLdouble x0, GLdouble
     nom = n;
     Index = 0;
 
-    //readObj(n);
+    readObj(n);
 
-    //make();
+    make();
 
 }
 
@@ -130,7 +130,7 @@ void Objecte::draw()
     program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4) * Index, 4);
 
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//GL_FILL MODIFICADO
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//GL_FILL MODIFICADO
     glDrawArrays( GL_TRIANGLES, 0, Index );
 
     // Abans nomes es feia: glDrawArrays( GL_TRIANGLES, 0, NumVerticesP );
