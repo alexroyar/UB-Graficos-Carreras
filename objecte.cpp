@@ -149,9 +149,10 @@ void Objecte::make()
     // Cal recorrer l'estructura de l'objecte per a pintar les seves cares
 
     Index = 0;
-    cout << "Caras: "<<cares.size() << endl;
     for(unsigned int i=0; i<cares.size(); i++)
     {
+        cares[i];
+        points[Index] = point4(1,1,1,1);
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++)
         {
             points[Index] = vertexs[cares[i].idxVertices[j]];

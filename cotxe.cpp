@@ -107,10 +107,11 @@ void Cotxe::readObj(QString filename)
                   z/=w;
                 }
                 // S'afegeix el vertex a l'objecte
+                //vertexs.push_back(point4(x, y, z, 1));
                 switch (rueda) {
                 case '1':
                     rueda_izquierda_posterior->add_vector(point4(x, y, z, 1));
-                    //rueda_izquierda_posterior->vertexs.push_back();
+
                     break;
                 default:
                     vertexs.push_back(point4(x, y, z, 1));
@@ -126,7 +127,15 @@ void Cotxe::readObj(QString filename)
             }
             else if (!strcmp (first_word, "f")) {
                 // S'afegeix la cara a l'objecte
-                construeix_cara (&ReadFile::words[1], nwords-1, this, vindexUlt);
+                switch (rueda) {
+                case '1':
+                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_posterior, vindexUlt);
+                    break;
+                default:
+                    construeix_cara(&ReadFile::words[1], nwords-1, this, vindexUlt);
+                    break;
+                }
+
 
             }
             // added
@@ -142,10 +151,13 @@ void Cotxe::readObj(QString filename)
                 //cada nou objecte s'actualitza aquest Ã­ndex
                 vindexUlt = vindexAct;
                 char * second_word = ReadFile::words[1];
-                if(!strcmp(second_word,"Roda_Esquerra_Posterior_Untitled")){
+                //Roda_Dreta_Posterior_04
+                if(!strcmp(second_word,"Roda_")){
                     cout << "Rueda posterior Izquierda" << endl;
-                    rueda_izquierda_posterior=new Roda("Roda_Esquerra_Posterior_Untitled");
+                    rueda_izquierda_posterior=new Roda("Roda_Esquerra_Posterior_Untitfled");
                     rueda='1';
+                }else{
+                    rueda='0';
                 }
 
             }
