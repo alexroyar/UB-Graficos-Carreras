@@ -142,7 +142,9 @@ void GLWidget::newTerra(float amplaria, float profunditat, float y)
 
 void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, float xdirec, float ydirec, float zdirec)
 {
+
     Cotxe *obj;
+
     // parametres que posen l'objecte cotxe al punt original xorig, yorig, zorig i d'una certa mida
     // Cal modificar-lo per a que es posicioni a la Y correcte
     float yorig = 2;

@@ -107,8 +107,16 @@ void Cotxe::readObj(QString filename)
                   z/=w;
                 }
                 // S'afegeix el vertex a l'objecte
+                switch (rueda) {
+                case '1':
+                    rueda_izquierda_posterior->add_vector(point4(x, y, z, 1));
+                    //rueda_izquierda_posterior->vertexs.push_back();
+                    break;
+                default:
+                    vertexs.push_back(point4(x, y, z, 1));
+                    break;
+                }
 
-                vertexs.push_back(point4(x, y, z, 1));
                 vindexAct++;
 
             }
@@ -136,7 +144,8 @@ void Cotxe::readObj(QString filename)
                 char * second_word = ReadFile::words[1];
                 if(!strcmp(second_word,"Roda_Esquerra_Posterior_Untitled")){
                     cout << "Rueda posterior Izquierda" << endl;
-                    ruedas.push_back(Roda());
+                    rueda_izquierda_posterior=new Roda("Roda_Esquerra_Posterior_Untitled");
+                    rueda='3';
                 }
 
             }
