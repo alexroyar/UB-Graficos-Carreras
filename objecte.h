@@ -61,8 +61,6 @@ public:
     // llegeix un model en format OBJ
     virtual void readObj(QString filename);
 
-    void construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt);
-
     // make(): omple l'estructura de points i colors de l'objecte, inicialitza NumVertices
     // Si l'objecte es construeix procedimentalment es sobrecarrega el make
     virtual void make();
@@ -81,6 +79,8 @@ public:
     // Aplica una TG centrada en el punt central de la capsa de l'objecte a un objecte
     void aplicaTGCentrat(mat4 m);
 
+private:
+    void construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt);
 
 };
 
