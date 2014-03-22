@@ -36,7 +36,7 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     zorig = z0;
 
 
-
+    rueda = '0';
     readObj(n);
     make();
 
@@ -109,17 +109,27 @@ void Cotxe::readObj(QString filename)
                   z/=w;
                 }
                 // S'afegeix el vertex a l'objecte
-                //vertexs.push_back(point4(x, y, z, 1));
                 switch (rueda) {
                 case '1':
                     rueda_izquierda_posterior->add_vector(point4(x, y, z, 1));
-
+                    //rueda_izquierda_posterior->vertexs.push_back();
                     break;
-                default:
+                case '2':
+                    rueda_derecha_posterior->add_vector(point4(x, y, z, 1));
+                    //rueda_izquierda_posterior->vertexs.push_back();
+                    break;
+                case '3':
+                    rueda_izquierda_delantera->add_vector(point4(x, y, z, 1));
+                    //rueda_izquierda_posterior->vertexs.push_back();
+                    break;
+                case '4':
+                    rueda_derecha_delantera->add_vector(point4(x, y, z, 1));
+                    //rueda_izquierda_posterior->vertexs.push_back();
+                    break;
+                case '5':
                     vertexs.push_back(point4(x, y, z, 1));
                     break;
                 }
-
                 vindexAct++;
 
             }
@@ -129,18 +139,23 @@ void Cotxe::readObj(QString filename)
             }
             else if (!strcmp (first_word, "f")) {
                 // S'afegeix la cara a l'objecte
-
                 switch (rueda) {
                 case '1':
-                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_posterior, vindexUlt);
+                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_posterior,vindexUlt);
                     break;
-                default:
-                    construeix_cara(&ReadFile::words[1], nwords-1, this, vindexUlt);
+                case '2':
+                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_derecha_posterior,vindexUlt);
+                    break;
+                case '3':
+                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_delantera,vindexUlt);
+                    break;
+                case '4':
+                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_derecha_delantera,vindexUlt);
+                    break;
+                case '5':
+                    construeix_cara(&ReadFile::words[1], nwords-1, this,vindexUlt);
                     break;
                 }
-
-
-                construeix_cara (&ReadFile::words[1], nwords-1, this, vindexUlt);
 
             }
             // added
@@ -157,13 +172,28 @@ void Cotxe::readObj(QString filename)
                 vindexUlt = vindexAct;
 
                 char * second_word = ReadFile::words[1];
-                //Roda_Dreta_Posterior_04
-                if(!strcmp(second_word,"Roda_")){
+                if(!strcmp(second_word,"Roda_Esquerra_Posterior_Untitled")){
                     cout << "Rueda posterior Izquierda" << endl;
-                    rueda_izquierda_posterior=new Roda("Roda_Esquerra_Posterior_Untitfled");
+                    rueda_izquierda_posterior=new Roda("Roda_Esquerra_Posterior_Untitled");
                     rueda='1';
+                }else if(!strcmp(second_word,"Roda_Dreta_Posterior_04")){
+                    cout << "Roda_Dreta_Posterior_04" << endl;
+                    rueda_derecha_posterior=new Roda("Roda_Dreta_Posterior_04");
+                    rueda='2';
+                }else if(!strcmp(second_word,"Roda_Esquerra_Davantera_02")){
+                    cout << "Roda_Esquerra_Davantera_02" << endl;
+                    rueda_izquierda_delantera=new Roda("Roda_Esquerra_Davantera_02");
+                    rueda='3';
+                }else if(!strcmp(second_word,"Roda_Dreta_Davantera_03")){
+                    cout << "Roda_Dreta_Davantera_03" << endl;
+                    rueda_derecha_delantera=new Roda("Roda_Dreta_Davantera_03");
+                    rueda='4';
+                }else if(!strcmp(second_word,"Carrosseria_00")){
+                    cout << "Carrosseria_00" << endl;
+                    rueda='5';
                 }else{
-                    rueda='0';
+                    rueda = '0';
+                    cout << "Rueda a cero" << endl;
                 }
 
 

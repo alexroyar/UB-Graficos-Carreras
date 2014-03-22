@@ -5,7 +5,7 @@
 #include <iostream>
 #include <objecte.h>
 #include <roda.h>
-
+#include <readfile.h>
 
 using namespace std;
 
@@ -17,7 +17,8 @@ public:
           double girx, double giry, double girz,
           float xdir, float ydir, float zdir);
 
-    Roda *rueda_izquierda_posterior;
+    Roda *rueda_izquierda_posterior,*rueda_izquierda_delantera;
+    Roda *rueda_derecha_posterior,*rueda_derecha_delantera;
     char rueda='0';
 
 
