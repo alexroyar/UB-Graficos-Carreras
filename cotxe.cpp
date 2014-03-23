@@ -39,7 +39,7 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     rueda = '0';
     readObj(n);
 
-    double escalaX = 1.6 / 4.6;
+    double escalaX = 1.0 / 4.6;
     mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale((escalaX/tamanio),(escalaX/tamanio),(escalaX/tamanio))*Translate(+1.93, -0.26, 2.16);
     rueda_izquierda_posterior->make();
     rueda_izquierda_posterior->aplicaTG(m);

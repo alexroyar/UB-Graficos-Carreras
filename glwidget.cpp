@@ -289,16 +289,16 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     switch ( event->key() )
     {
     case Qt::Key_Up:
-
+        cout<<"arriba\n";
         break;
     case Qt::Key_Down:
-
+        cout<<"abajo\n";
         break;
     case Qt::Key_Left:
-
+        cout<<"izquierda\n";
         break;
     case Qt::Key_Right:
-
+        cout<<"derecha\n";
         break;
     }
 
