@@ -142,13 +142,20 @@ void GLWidget::newTerra(float amplaria, float profunditat, float y)
 
 void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, float xdirec, float ydirec, float zdirec)
 {
+
     Cotxe *obj;
+
     // parametres que posen l'objecte cotxe al punt original xorig, yorig, zorig i d'una certa mida
     // Cal modificar-lo per a que es posicioni a la Y correcte
     float yorig = 2;
 
     obj = new Cotxe(fichero, mida, xorig, yorig, zorig, 0., 0., 0.,xdirec, ydirec, zdirec);
     newObjecte(obj);
+
+    newObjecte(obj->get_rueda_izquierda_posterior());
+    newObjecte(obj->get_rueda_derecha_posterior());
+    newObjecte(obj->get_rueda_izquierda_delantera());
+    newObjecte(obj->get_rueda_derecha_delantera());
 }
 
 void GLWidget::initializeGL()
@@ -193,12 +200,23 @@ void GLWidget::paintGL()
 
     if (esc->cotxe!=NULL) {
         esc->cotxe->aplicaTGCentrat(transform);
-        esc->draw();
     }
     if (esc->terra!=NULL) {
         esc->terra->aplicaTGCentrat(transform);
-        esc->draw();
     }
+    if (esc->rueda_d_p!=NULL) {
+        esc->rueda_d_p->aplicaTGCentrat(transform);
+    }
+    if (esc->rueda_i_p!=NULL) {
+        esc->rueda_i_p->aplicaTGCentrat(transform);
+    }
+    if (esc->rueda_i_d!=NULL) {
+        esc->rueda_i_d->aplicaTGCentrat(transform);
+    }
+    if (esc->rueda_d_d!=NULL) {
+        esc->rueda_d_d->aplicaTGCentrat(transform);
+    }
+    esc->draw();
 }
 
 void GLWidget::resizeGL(int width, int height)

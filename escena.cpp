@@ -11,6 +11,11 @@ escena::escena()
 
     cotxe = NULL;
     terra = NULL;
+    rueda_i_p = NULL;
+    rueda_d_p = NULL;
+    rueda_d_d = NULL;
+    rueda_i_d = NULL;
+    rueda = NULL;
 }
 
 
@@ -25,6 +30,23 @@ void escena::addObjecte(Objecte *obj) {
         this->cotxe = (Cotxe*)obj;
     if (dynamic_cast<Terra*>(obj))
         this->terra = (Terra*)obj;
+    if (dynamic_cast<Roda*>(obj)){
+        this->rueda = (Roda*)obj;
+        switch (rueda->get_posicion()) {
+        case 1:
+            this->rueda_i_p=(Roda*)obj;
+            break;
+        case 2:
+            this->rueda_d_p=(Roda*)obj;
+            break;
+        case 3:
+            this->rueda_i_d=(Roda*)obj;
+            break;
+        case 4:
+            this->rueda_d_d=(Roda*)obj;
+            break;
+        }
+    }
 }
 
 
@@ -42,6 +64,18 @@ void escena::aplicaTG(mat4 m) {
     if (terra!=NULL)
         terra->aplicaTG(m);
 
+    if (rueda_d_p!=NULL)
+        rueda_d_p->aplicaTG(m);
+
+    if (rueda_i_p!=NULL)
+        rueda_i_p->aplicaTG(m);
+
+    if (rueda_d_d!=NULL)
+        rueda_d_d->aplicaTG(m);
+
+    if (rueda_i_d!=NULL)
+        rueda_i_d->aplicaTG(m);
+
 }
 
 void escena::aplicaTGCentrat(mat4 m) {
@@ -54,6 +88,18 @@ void escena::aplicaTGCentrat(mat4 m) {
     if (terra!=NULL)
         terra->aplicaTGCentrat(m);
 
+    if (rueda_i_p!=NULL)
+        rueda_i_p->aplicaTGCentrat(m);
+
+    if (rueda_d_p!=NULL)
+        rueda_d_p->aplicaTGCentrat(m);
+
+    if (rueda_d_d!=NULL)
+        rueda_d_d->aplicaTGCentrat(m);
+
+    if (rueda_i_d!=NULL)
+        rueda_i_d->aplicaTGCentrat(m);
+
 }
 
 void escena::draw() {
@@ -65,6 +111,17 @@ void escena::draw() {
     if (terra!=NULL)
         terra->draw();
 
+    if (rueda_d_p!=NULL)
+        rueda_d_p->draw();
+
+    if (rueda_i_p!=NULL)
+        rueda_i_p->draw();
+
+    if (rueda_d_d!=NULL)
+        rueda_d_d->draw();
+
+    if (rueda_i_d!=NULL)
+        rueda_i_d->draw();
 }
 
 void escena::reset() {
@@ -75,6 +132,18 @@ void escena::reset() {
         cotxe->make();
     if (terra!=NULL)
         terra->make();
+
+    if (rueda_d_p!=NULL)
+        rueda_d_p->make();
+
+    if (rueda_i_p!=NULL)
+        rueda_i_p->make();
+
+    if (rueda_d_d!=NULL)
+        rueda_d_d->make();
+
+    if (rueda_i_d!=NULL)
+        rueda_i_d->make();
 
 }
 

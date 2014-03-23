@@ -4,6 +4,7 @@
 Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,
     QObject(parent)
 {
+     std::cout<<"Estic en el constructor parametritzat del objeto simple\n";
     points = new point4[npoints];
     colors = new color4[npoints];
 }
@@ -13,7 +14,7 @@ Objecte::Objecte(int npoints, QString n, GLdouble tamanio, GLdouble x0, GLdouble
     points = new point4[npoints];
     colors = new color4[npoints];
     tam = tamanio;
-    std::cout<<"Estic en el constructor parametritzat del cotxe\n";
+    std::cout<<"Estic en el constructor parametritzat del objeto compuesto\n";
     xorig = x0;
     yorig = y0;
     zorig = z0;
@@ -26,9 +27,9 @@ Objecte::Objecte(int npoints, QString n, GLdouble tamanio, GLdouble x0, GLdouble
     nom = n;
     Index = 0;
 
-    readObj(n);
+    //readObj(n);
 
-    make();
+    //make();
 
 }
 
@@ -148,7 +149,8 @@ void Objecte::make()
     // Cal recorrer l'estructura de l'objecte per a pintar les seves cares
 
     Index = 0;
-
+    cout << "Caras: "<<cares.size() << endl;
+    cout << "Vertex: "<<vertexs.size() << endl;
     for(unsigned int i=0; i<cares.size(); i++)
     {
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++)
@@ -168,7 +170,7 @@ float Objecte::getYOrig() {
 
 
 // Llegeix un fitxer .obj
-//  Si el fitxer referencia fitxers de materials (.mtl), encara no es llegeixen
+//  Si el fitxer referencia fitxers de materials (.mtl), tambe es llegeixen.
 //  Tots els elements del fitxer es llegeixen com a un unic objecte.
 //
 
@@ -182,9 +184,12 @@ void Objecte::readObj(QString filename)
     }
     else {
 
+        int vindexAct = 0;
+        int vindexUlt = 0;
+
         while (true)
         {
-            char *comment_ptr = fetch_line (fp);
+            char *comment_ptr = ReadFile::fetch_line (fp);
 
             if (comment_ptr == (char *) -1)  /* end-of-file */
                 break;
@@ -196,38 +201,39 @@ void Objecte::readObj(QString filename)
             }
 
             /* if we get here, the line was not a comment */
-            int nwords = fetch_words();
+            int nwords = ReadFile::fetch_words();
 
             /* skip empty lines */
             if (nwords == 0)
                 continue;
 
-            char *first_word = words[0];
+            char *first_word = ReadFile::words[0];
 
             if (!strcmp (first_word, "v"))
             {
                 if (nwords < 4)
                 {
-                    fprintf (stderr, "Too few coordinates: '%s'", str_orig);
+                    fprintf (stderr, "Too few coordinates");//: '%s'", str_orig);
                     exit (-1);
                 }
-                QString sx(words[1]);
-                QString sy(words[2]);
-                QString sz(words[3]);
+                QString sx(ReadFile::words[1]);
+                QString sy(ReadFile::words[2]);
+                QString sz(ReadFile::words[3]);
                 double x = sx.toDouble();
                 double y = sy.toDouble();
                 double z = sz.toDouble();
 
                 if (nwords == 5)
                 {
-                    QString sw(words[4]);
-                    double w = sw.toDouble();
-                    x/=w;
-                    y/=w;
-                    z/=w;
+                  QString sw(ReadFile::words[4]);
+                  double w = sw.toDouble();
+                  x/=w;
+                  y/=w;
+                  z/=w;
                 }
                 // S'afegeix el vertex a l'objecte
                 vertexs.push_back(point4(x, y, z, 1));
+                vindexAct++;
 
             }
             else if (!strcmp (first_word, "vn")) {
@@ -236,7 +242,7 @@ void Objecte::readObj(QString filename)
             }
             else if (!strcmp (first_word, "f")) {
                 // S'afegeix la cara a l'objecte
-                construeix_cara (&words[1], nwords-1);
+                construeix_cara (&ReadFile::words[1], nwords-1, this, vindexUlt);
             }
             // added
             else if (!strcmp (first_word, "mtllib")) {
@@ -247,18 +253,23 @@ void Objecte::readObj(QString filename)
                 //while (size && (words[1][size]=='\n' || words[1][size]=='\r') ) words[1][size--]=0;
                 //currentMaterial = matlib.index(words[1]);
             }
+            else if (!strcmp (first_word, "o")) {
+                //cada nou objecte s'actualitza aquest Ã­ndex
+                vindexUlt = vindexAct;
+            }
             // fadded
             else {
                 //fprintf (stderr, "Do not recognize: '%s'\n", str_orig);
             }
+
+            //free(words);
         }
     }
 
-    capsa = calculCapsa3D();
 }
 
 
-void Objecte::construeix_cara ( char **words, int nwords)
+void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt)
 {
     Cara face;
     for (int i = 0; i < nwords; i++)
@@ -269,7 +280,7 @@ void Objecte::construeix_cara ( char **words, int nwords)
 
         if ((words[i][0]>='0')&&(words[i][0]<='9'))
         {
-            get_indices (words[i], &vindex, &tindex, &nindex);
+            ReadFile::get_indices (words[i], &vindex, &tindex, &nindex);
 
 #if 0
             printf ("vtn: %d %d %d\n", vindex, tindex, nindex);
@@ -278,18 +289,17 @@ void Objecte::construeix_cara ( char **words, int nwords)
             /* store the vertex index */
 
             if (vindex > 0)       /* indices are from one, not zero */
-                face.idxVertices.push_back(vindex - 1);
+                face.idxVertices.push_back(vindex - 1 - vindexUlt);
             else if (vindex < 0)  /* negative indices mean count backwards */
-                face.idxVertices.push_back(vertexs.size() + vindex);
+                face.idxVertices.push_back(objActual->vertexs.size() + vindex - vindexUlt);
             else
             {
-                fprintf (stderr, "Zero indices not allowed: '%s'\n", str_orig);
+                fprintf (stderr, "Zero indices not allowed");//: '%s'\n", str_orig);
                 exit (-1);
             }
         }
     }
     face.color = vec4(1.0, 0.0, 0.0, 1.0);
-    cares.push_back(face);
+    objActual->cares.push_back(face);
 }
-
 
