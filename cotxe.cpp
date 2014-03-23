@@ -184,7 +184,7 @@ void Cotxe::readObj(QString filename)
                     cout << "Roda_Esquerra_Davantera_02" << endl;
                     rueda_izquierda_delantera=new Roda("Roda_Esquerra_Davantera_02");
                     rueda='3';
-                }else if(!strcmp(second_word,"Roda_Dreta_Davantera_03")){
+                }else if(!strcmp(second_word,"12Roda_Dreta_Davantera_03")){
                     cout << "Roda_Dreta_Davantera_03" << endl;
                     rueda_derecha_delantera=new Roda("Roda_Dreta_Davantera_03");
                     rueda='4';
@@ -192,11 +192,9 @@ void Cotxe::readObj(QString filename)
                     cout << "Carrosseria_00" << endl;
                     rueda='5';
                 }else{
-                    rueda = '0';
+                    rueda = '5';
                     cout << "Rueda a cero" << endl;
                 }
-
-
             }
             // fadded
             else {
