@@ -21,7 +21,10 @@ public:
     Roda *rueda_derecha_posterior,*rueda_derecha_delantera;
     char rueda='0';
 
-
+    vector<Roda*> get_ruedas();
+    Roda * get_rueda_izquierda_posterior();
+    Roda * get_rueda_derecha_posterior();
+    Roda * get_rueda_izquierda_delantera();
     void forward();
     void backward();
     void turnleft();

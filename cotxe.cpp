@@ -35,21 +35,33 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     yorig = y0;
     zorig = z0;
 
-
+    cout << "Estoy en el constructor largo de coche\n";
     rueda = '0';
     readObj(n);
-    make();
 
-
-
-
-    double escalaX = 1.0 / 4.6;
-    //mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale(escalaX, escalaX, escalaX)*Translate(+1.93, -0.26, 2.16);
+    double escalaX = 1.6 / 4.6;
     mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale((escalaX/tamanio),(escalaX/tamanio),(escalaX/tamanio))*Translate(+1.93, -0.26, 2.16);
-
-
+    rueda_izquierda_posterior->make();
+    rueda_izquierda_posterior->aplicaTG(m);
+    rueda_derecha_posterior->make();
+    rueda_derecha_posterior->aplicaTG(m);
+    rueda_izquierda_delantera->make();
+    rueda_izquierda_delantera->aplicaTG(m);
+    make();
     aplicaTG(m);
 
+
+    //mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale(escalaX, escalaX, escalaX)*Translate(+1.93, -0.26, 2.16);
+}
+
+Roda * Cotxe:: get_rueda_izquierda_posterior(){
+    return rueda_izquierda_posterior;
+}
+Roda * Cotxe:: get_rueda_derecha_posterior(){
+    return rueda_derecha_posterior;
+}
+Roda * Cotxe:: get_rueda_izquierda_delantera(){
+    return rueda_izquierda_delantera;
 }
 
 void Cotxe::readObj(QString filename)
@@ -131,7 +143,6 @@ void Cotxe::readObj(QString filename)
                     break;
                 }
                 vindexAct++;
-
             }
             else if (!strcmp (first_word, "vn")) {
             }
@@ -156,7 +167,6 @@ void Cotxe::readObj(QString filename)
                     construeix_cara(&ReadFile::words[1], nwords-1, this,vindexUlt);
                     break;
                 }
-
             }
             // added
             else if (!strcmp (first_word, "mtllib")) {
@@ -174,19 +184,19 @@ void Cotxe::readObj(QString filename)
                 char * second_word = ReadFile::words[1];
                 if(!strcmp(second_word,"Roda_Esquerra_Posterior_Untitled")){
                     cout << "Rueda posterior Izquierda" << endl;
-                    rueda_izquierda_posterior=new Roda("Roda_Esquerra_Posterior_Untitled");
+                    rueda_izquierda_posterior=new Roda(1);
                     rueda='1';
                 }else if(!strcmp(second_word,"Roda_Dreta_Posterior_04")){
                     cout << "Roda_Dreta_Posterior_04" << endl;
-                    rueda_derecha_posterior=new Roda("Roda_Dreta_Posterior_04");
+                    rueda_derecha_posterior=new Roda(2);
                     rueda='2';
                 }else if(!strcmp(second_word,"Roda_Esquerra_Davantera_02")){
                     cout << "Roda_Esquerra_Davantera_02" << endl;
-                    rueda_izquierda_delantera=new Roda("Roda_Esquerra_Davantera_02");
+                    rueda_izquierda_delantera=new Roda(3);
                     rueda='3';
-                }else if(!strcmp(second_word,"12Roda_Dreta_Davantera_03")){
+                }else if(!strcmp(second_word,"Roda_Dreta_Davantera_03")){
                     cout << "Roda_Dreta_Davantera_03" << endl;
-                    rueda_derecha_delantera=new Roda("Roda_Dreta_Davantera_03");
+                    rueda_derecha_delantera=new Roda(4);
                     rueda='4';
                 }else if(!strcmp(second_word,"Carrosseria_00")){
                     cout << "Carrosseria_00" << endl;

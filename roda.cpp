@@ -1,12 +1,17 @@
 #include "roda.h"
 
-Roda::Roda(QString n): Objecte(NumVerticesR)
+Roda::Roda(int pos): Objecte(NumVerticesR)
 {
     std::cout<<"Estic en el constructor del Rueda\n";
 
-    nom = n;
+    posicion = pos;
 }
 void Roda::add_vector(point4 p)
 {
-    vertexs.push_back(p);
+    this->vertexs.push_back(p);
 }
+int Roda::get_posicion()
+{
+    return posicion;
+}
+

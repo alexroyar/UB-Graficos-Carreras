@@ -151,6 +151,10 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
 
     obj = new Cotxe(fichero, mida, xorig, yorig, zorig, 0., 0., 0.,xdirec, ydirec, zdirec);
     newObjecte(obj);
+
+    newObjecte(obj->get_rueda_izquierda_posterior());
+    newObjecte(obj->get_rueda_derecha_posterior());
+    newObjecte(obj->get_rueda_izquierda_delantera());
 }
 
 void GLWidget::initializeGL()
@@ -195,12 +199,23 @@ void GLWidget::paintGL()
 
     if (esc->cotxe!=NULL) {
         esc->cotxe->aplicaTGCentrat(transform);
-        esc->draw();
     }
     if (esc->terra!=NULL) {
         esc->terra->aplicaTGCentrat(transform);
-        esc->draw();
     }
+    if (esc->rueda_d_p!=NULL) {
+        esc->rueda_d_p->aplicaTGCentrat(transform);
+    }
+    if (esc->rueda_i_p!=NULL) {
+        esc->rueda_i_p->aplicaTGCentrat(transform);
+    }
+    if (esc->rueda_i_d!=NULL) {
+        esc->rueda_i_d->aplicaTGCentrat(transform);
+    }
+    if (esc->rueda_d_d!=NULL) {
+        esc->rueda_d_d->aplicaTGCentrat(transform);
+    }
+    esc->draw();
 }
 
 void GLWidget::resizeGL(int width, int height)
