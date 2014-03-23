@@ -47,6 +47,8 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     rueda_derecha_posterior->aplicaTG(m);
     rueda_izquierda_delantera->make();
     rueda_izquierda_delantera->aplicaTG(m);
+    rueda_derecha_delantera->make();
+    rueda_derecha_delantera->aplicaTG(m);
     make();
     aplicaTG(m);
 
@@ -62,6 +64,9 @@ Roda * Cotxe:: get_rueda_derecha_posterior(){
 }
 Roda * Cotxe:: get_rueda_izquierda_delantera(){
     return rueda_izquierda_delantera;
+}
+Roda * Cotxe:: get_rueda_derecha_delantera(){
+    return rueda_derecha_delantera;
 }
 
 void Cotxe::readObj(QString filename)

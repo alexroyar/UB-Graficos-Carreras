@@ -155,6 +155,7 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
     newObjecte(obj->get_rueda_izquierda_posterior());
     newObjecte(obj->get_rueda_derecha_posterior());
     newObjecte(obj->get_rueda_izquierda_delantera());
+    newObjecte(obj->get_rueda_derecha_delantera());
 }
 
 void GLWidget::initializeGL()

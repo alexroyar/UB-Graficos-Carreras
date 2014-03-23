@@ -25,6 +25,7 @@ public:
     Roda * get_rueda_izquierda_posterior();
     Roda * get_rueda_derecha_posterior();
     Roda * get_rueda_izquierda_delantera();
+    Roda * get_rueda_derecha_delantera();
     void forward();
     void backward();
     void turnleft();
