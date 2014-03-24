@@ -71,7 +71,7 @@ public:
     virtual void draw();
 
     // Calcula la capsa 3D contenidora de l'objecte
-    Capsa3D calculCapsa3D();
+    Capsa3D calculCapsa3D(vec3 pmin,vec3 pmax);
 
     // Aplica una TG qualsevol a un objecte
     void aplicaTG(mat4 m);

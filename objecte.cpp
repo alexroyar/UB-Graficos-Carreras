@@ -40,20 +40,6 @@ Objecte::~Objecte()
     delete colors;
 }
 
-
-Capsa3D Objecte::calculCapsa3D()
-{
-
-    // Metode a implementar: calcula la capsa mínima contenidora d'un objecte
-
-    vec3    pmin, pmax;
-
-    return capsa;
-}
-
-
-
-
 void Objecte::aplicaTG(mat4 m)
 {
     aplicaTGPoints(m);
@@ -135,10 +121,20 @@ void Objecte::draw()
 
     // Abans nomes es feia: glDrawArrays( GL_TRIANGLES, 0, NumVerticesP );
 }
-
+Capsa3D Objecte::calculCapsa3D(vec3 pmin, vec3 pmax)
+{
+    // Metode a implementar: calcula la capsa mínima contenidora d'un objecte
+    Capsa3D capsa;
+    capsa.pmin=pmin;
+    capsa.a=std::abs(pmax.x-pmin.x);
+    capsa.h=std::abs(pmax.y-pmin.y);
+    capsa.p=std::abs(pmax.z-pmin.z);
+    return capsa;
+}
 void Objecte::make()
 {
-
+    vec3 v_minimo;
+    vec3 v_maximo;
     static vec3  base_colors[] = {
         vec3( 1.0, 0.0, 0.0 ),
         vec3( 0.0, 1.0, 0.0 ),
@@ -157,10 +153,23 @@ void Objecte::make()
         {
             points[Index] = vertexs[cares[i].idxVertices[j]];
             colors[Index] = base_colors[i%4];
+
+            if(v_maximo==NULL || v_minimo==NULL){
+                v_minimo = vec3(points[Index].x,points[Index].y,points[Index].z);
+                v_maximo = vec3(points[Index].x,points[Index].y,points[Index].z);
+            }else{
+                if(points[Index].x<v_minimo.x){v_minimo.x=points[Index].x;}
+                if(points[Index].y<v_minimo.y){v_minimo.y=points[Index].y;}
+                if(points[Index].z<v_minimo.z){v_minimo.z=points[Index].z;}
+                if(points[Index].x>v_maximo.x){v_maximo.x=points[Index].x;}
+                if(points[Index].y>v_maximo.y){v_maximo.y=points[Index].y;}
+                if(points[Index].z>v_maximo.z){v_maximo.z=points[Index].z;}
+            }
+
             Index++;
         }
     }
-
+    capsa = calculCapsa3D(v_minimo,v_maximo);
     // S'ha de dimensionar uniformement l'objecte a la capsa de l'escena i s'ha posicionar en el lloc corresponent
 }
 
