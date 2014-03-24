@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     newterradialog.cpp \
     terra.cpp \
     readfile.cpp \
-    roda.cpp
+    roda.cpp \
+    carroceria.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
@@ -41,7 +42,8 @@ HEADERS  += mainwindow.h \
     newterradialog.h \
     readfile.h \
     terra.h \
-    roda.h
+    roda.h \
+    carroceria.h
 
 FORMS    += mainwindow.ui \
     newcotxedialog.ui \

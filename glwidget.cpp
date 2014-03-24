@@ -156,6 +156,7 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
     newObjecte(obj->get_rueda_derecha_posterior());
     newObjecte(obj->get_rueda_izquierda_delantera());
     newObjecte(obj->get_rueda_derecha_delantera());
+    newObjecte(obj->get_carroceria());
 }
 
 void GLWidget::initializeGL()
@@ -215,6 +216,9 @@ void GLWidget::paintGL()
     }
     if (esc->rueda_d_d!=NULL) {
         esc->rueda_d_d->aplicaTGCentrat(transform);
+    }
+    if (esc->carroceria!=NULL) {
+        esc->carroceria->aplicaTGCentrat(transform);
     }
     esc->draw();
 }

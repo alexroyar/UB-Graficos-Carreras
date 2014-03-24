@@ -16,6 +16,7 @@ escena::escena()
     rueda_d_d = NULL;
     rueda_i_d = NULL;
     rueda = NULL;
+    carroceria = NULL;
 }
 
 
@@ -30,6 +31,10 @@ void escena::addObjecte(Objecte *obj) {
         this->cotxe = (Cotxe*)obj;
     if (dynamic_cast<Terra*>(obj))
         this->terra = (Terra*)obj;
+    if (dynamic_cast<Carroceria*>(obj))
+        this->carroceria = (Carroceria*)obj;
+
+
     if (dynamic_cast<Roda*>(obj)){
         this->rueda = (Roda*)obj;
         switch (rueda->get_posicion()) {
@@ -47,6 +52,7 @@ void escena::addObjecte(Objecte *obj) {
             break;
         }
     }
+
 }
 
 
@@ -76,6 +82,8 @@ void escena::aplicaTG(mat4 m) {
     if (rueda_i_d!=NULL)
         rueda_i_d->aplicaTG(m);
 
+    if (carroceria!=NULL)
+        carroceria->aplicaTG(m);
 }
 
 void escena::aplicaTGCentrat(mat4 m) {
@@ -87,6 +95,9 @@ void escena::aplicaTGCentrat(mat4 m) {
 
     if (terra!=NULL)
         terra->aplicaTGCentrat(m);
+
+    if (carroceria!=NULL)
+        carroceria->aplicaTGCentrat(m);
 
     if (rueda_i_p!=NULL)
         rueda_i_p->aplicaTGCentrat(m);
@@ -110,6 +121,8 @@ void escena::draw() {
         cotxe->draw();
     if (terra!=NULL)
         terra->draw();
+    if (carroceria!=NULL)
+        carroceria->draw();
 
     if (rueda_d_p!=NULL)
         rueda_d_p->draw();
@@ -132,6 +145,9 @@ void escena::reset() {
         cotxe->make();
     if (terra!=NULL)
         terra->make();
+
+    if (carroceria!=NULL)
+        carroceria->make();
 
     if (rueda_d_p!=NULL)
         rueda_d_p->make();

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <objecte.h>
 #include <roda.h>
+#include <carroceria.h>
 #include <readfile.h>
 
 using namespace std;
@@ -19,6 +20,7 @@ public:
 
     Roda *rueda_izquierda_posterior,*rueda_izquierda_delantera;
     Roda *rueda_derecha_posterior,*rueda_derecha_delantera;
+    Carroceria *carroceria;
     char rueda='0';
 
     vector<Roda*> get_ruedas();
@@ -26,6 +28,7 @@ public:
     Roda * get_rueda_derecha_posterior();
     Roda * get_rueda_izquierda_delantera();
     Roda * get_rueda_derecha_delantera();
+    Carroceria * get_carroceria();
     void forward();
     void backward();
     void turnleft();

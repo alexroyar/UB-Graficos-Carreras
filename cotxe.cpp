@@ -49,8 +49,10 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     rueda_izquierda_delantera->aplicaTG(m);
     rueda_derecha_delantera->make();
     rueda_derecha_delantera->aplicaTG(m);
-    make();
-    aplicaTG(m);
+    carroceria->make();
+    carroceria->aplicaTG(m);
+    //make();
+    //aplicaTG(m);
 
 
     //mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale(escalaX, escalaX, escalaX)*Translate(+1.93, -0.26, 2.16);
@@ -67,6 +69,9 @@ Roda * Cotxe:: get_rueda_izquierda_delantera(){
 }
 Roda * Cotxe:: get_rueda_derecha_delantera(){
     return rueda_derecha_delantera;
+}
+Carroceria * Cotxe:: get_carroceria(){
+    return carroceria;
 }
 
 void Cotxe::readObj(QString filename)
@@ -144,7 +149,10 @@ void Cotxe::readObj(QString filename)
                     //rueda_izquierda_posterior->vertexs.push_back();
                     break;
                 case '5':
-                    vertexs.push_back(point4(x, y, z, 1));
+                    carroceria->add_vector(point4(x, y, z, 1));
+                    break;
+                default:
+                    this->vertexs.push_back(point4(x, y, z, 1));
                     break;
                 }
                 vindexAct++;
@@ -169,6 +177,9 @@ void Cotxe::readObj(QString filename)
                     construeix_cara(&ReadFile::words[1], nwords-1, rueda_derecha_delantera,vindexUlt);
                     break;
                 case '5':
+                    construeix_cara(&ReadFile::words[1], nwords-1, carroceria,vindexUlt);
+                    break;
+                default:
                     construeix_cara(&ReadFile::words[1], nwords-1, this,vindexUlt);
                     break;
                 }
@@ -205,9 +216,10 @@ void Cotxe::readObj(QString filename)
                     rueda='4';
                 }else if(!strcmp(second_word,"Carrosseria_00")){
                     cout << "Carrosseria_00" << endl;
+                    carroceria = new Carroceria();
                     rueda='5';
                 }else{
-                    rueda = '5';
+                    rueda = '6';
                     cout << "Rueda a cero" << endl;
                 }
             }
