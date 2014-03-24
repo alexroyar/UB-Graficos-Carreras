@@ -18,19 +18,11 @@ Objecte::Objecte(int npoints, QString n, GLdouble tamanio, GLdouble x0, GLdouble
     xorig = x0;
     yorig = y0;
     zorig = z0;
-
     xRot = girx;
     yRot = giry;
     zRot = girz;
-
-
     nom = n;
     Index = 0;
-
-    //readObj(n);
-
-    //make();
-
 }
 
 
@@ -72,14 +64,11 @@ void Objecte::aplicaTGPoints(mat4 m)
 
 void Objecte::aplicaTGCentrat(mat4 m)
 {
-
-    // Metode a modificar
     aplicaTGPoints(m);
     aplicaTG(m);
 }
 
 void Objecte::toGPU(QGLShaderProgram *pr){
-
     program = pr;
 
     std::cout<<"Passo les dades de l'objecte a la GPU\n";
@@ -95,8 +84,7 @@ void Objecte::toGPU(QGLShaderProgram *pr){
 }
 
 // Pintat en la GPU.
-void Objecte::draw()
-{
+void Objecte::draw() {
 
     // cal activar el buffer de l'objecte. Potser que ja n'hi hagi un altre actiu
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
@@ -116,23 +104,24 @@ void Objecte::draw()
     program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4) * Index, 4);
 
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//GL_FILL MODIFICADO
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//GL_FILL MODIFICADO
     glDrawArrays( GL_TRIANGLES, 0, Index );
 
     // Abans nomes es feia: glDrawArrays( GL_TRIANGLES, 0, NumVerticesP );
 }
-Capsa3D Objecte::calculCapsa3D(vec3 pmin, vec3 pmax)
-{
-    // Metode a implementar: calcula la capsa mínima contenidora d'un objecte
+
+// Calculamos la caja del objeto. Conseguimos su vertice minimo y su tamaño.
+Capsa3D Objecte::calculCapsa3D(vec3 pmin, vec3 pmax) {
     Capsa3D capsa;
-    capsa.pmin=pmin;
-    capsa.a=std::abs(pmax.x-pmin.x);
-    capsa.h=std::abs(pmax.y-pmin.y);
-    capsa.p=std::abs(pmax.z-pmin.z);
+    capsa.pmin = pmin;
+    capsa.a = std::abs(pmax.x - pmin.x);
+    capsa.h = std::abs(pmax.y - pmin.y);
+    capsa.p = std::abs(pmax.z - pmin.z);
     return capsa;
 }
-void Objecte::make()
-{
+
+// Generamos la geometria de un objeto.
+void Objecte::make() {
     vec3 v_minimo;
     vec3 v_maximo;
     static vec3  base_colors[] = {
@@ -141,50 +130,41 @@ void Objecte::make()
         vec3( 0.0, 0.0, 1.0 ),
         vec3( 1.0, 1.0, 0.0 )
     };
-    // Recorregut de totes les cares per a posar-les en les estructures de la GPU
-    // Cal recorrer l'estructura de l'objecte per a pintar les seves cares
 
     Index = 0;
     cout << "Caras: "<<cares.size() << endl;
-    cout << "Vertex: "<<vertexs.size() << endl;
-    for(unsigned int i=0; i<cares.size(); i++)
-    {
-        for(unsigned int j=0; j<cares[i].idxVertices.size(); j++)
-        {
+    cout << "Vertices: "<<vertexs.size() << endl;
+    for(unsigned int i=0; i<cares.size(); i++) {
+        for(unsigned int j=0; j<cares[i].idxVertices.size(); j++) {
             points[Index] = vertexs[cares[i].idxVertices[j]];
             colors[Index] = base_colors[i%4];
 
-            if(v_maximo==NULL || v_minimo==NULL){
-                v_minimo = vec3(points[Index].x,points[Index].y,points[Index].z);
-                v_maximo = vec3(points[Index].x,points[Index].y,points[Index].z);
-            }else{
-                if(points[Index].x<v_minimo.x){v_minimo.x=points[Index].x;}
-                if(points[Index].y<v_minimo.y){v_minimo.y=points[Index].y;}
-                if(points[Index].z<v_minimo.z){v_minimo.z=points[Index].z;}
-                if(points[Index].x>v_maximo.x){v_maximo.x=points[Index].x;}
-                if(points[Index].y>v_maximo.y){v_maximo.y=points[Index].y;}
-                if(points[Index].z>v_maximo.z){v_maximo.z=points[Index].z;}
+            // Conseguimos los puntos minimos/maximos del objeto de turno.
+            if (v_maximo==NULL || v_minimo==NULL) {
+                v_minimo = vec3(points[Index].x, points[Index].y, points[Index].z);
+                v_maximo = vec3(points[Index].x, points[Index].y, points[Index].z);
+            } else {
+                if(points[Index].x < v_minimo.x) { v_minimo.x = points[Index].x;}
+                if(points[Index].y < v_minimo.y) { v_minimo.y = points[Index].y;}
+                if(points[Index].z < v_minimo.z) { v_minimo.z = points[Index].z;}
+                if(points[Index].x > v_maximo.x) { v_maximo.x = points[Index].x;}
+                if(points[Index].y > v_maximo.y) { v_maximo.y = points[Index].y;}
+                if(points[Index].z > v_maximo.z) { v_maximo.z = points[Index].z;}
             }
-
             Index++;
         }
     }
+    // Generamos la caja con los vertices minimos y maximos.
     capsa = calculCapsa3D(v_minimo,v_maximo);
-    // S'ha de dimensionar uniformement l'objecte a la capsa de l'escena i s'ha posicionar en el lloc corresponent
 }
 
+// Getter de Y origen.
 float Objecte::getYOrig() {
     return this->yorig;
 }
 
-
-// Llegeix un fitxer .obj
-//  Si el fitxer referencia fitxers de materials (.mtl), tambe es llegeixen.
-//  Tots els elements del fitxer es llegeixen com a un unic objecte.
-//
-
-void Objecte::readObj(QString filename)
-{
+// Leemos un objeto de un fichero. No lo usamos.
+void Objecte::readObj(QString filename) {
 
     FILE *fp = fopen(filename.toLocal8Bit(),"rb");
     if (!fp)
@@ -277,18 +257,15 @@ void Objecte::readObj(QString filename)
 
 }
 
-
-void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt)
-{
+// Se construye una cara de un objeto.
+void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt) {
     Cara face;
-    for (int i = 0; i < nwords; i++)
-    {
+    for (int i = 0; i < nwords; i++) {
         int vindex;
         int nindex;
         int tindex;
 
-        if ((words[i][0]>='0')&&(words[i][0]<='9'))
-        {
+        if ((words[i][0]>='0')&&(words[i][0]<='9')) {
             ReadFile::get_indices (words[i], &vindex, &tindex, &nindex);
 
 #if 0

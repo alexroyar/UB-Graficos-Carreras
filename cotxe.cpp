@@ -1,5 +1,6 @@
 #include "cotxe.h"
 
+// Constructor corto de coche. No se usa.
 Cotxe::Cotxe(QString n) : Objecte(NumVerticesF)
 {
     nom = n;
@@ -23,13 +24,12 @@ Cotxe::Cotxe(QString n) : Objecte(NumVerticesF)
     make();
 }
 
+// Constructor largo de coche. Recibe parametros del formulario del QL_Widget.
 Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
              double girx, double giry, double girz,
              float xdir, float ydir, float zdir):Objecte(NumVerticesF, n, tamanio, x0, y0, z0, girx, giry, girz)
 {
-    // El seguent codi escala el cotxe entre 0 i 1 i el situa el seu centre  0,0,0. aixo fa que es vegi en la primera visualització
-    //
-    // Cal modificar el codi seguent
+
 
     xorig = x0;
     yorig = y0;
@@ -41,48 +41,60 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
 
     double escalaX = 1.0 / 4.6;
     mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale((escalaX/tamanio),(escalaX/tamanio),(escalaX/tamanio))*Translate(+1.93, -0.26, 2.16);
+
+    // Make/transformacion de rueda izquierda posterior.
     rueda_izquierda_posterior->make();
     rueda_izquierda_posterior->aplicaTG(m);
+
+    // Make/transformacion de rueda derecha posterior.
     rueda_derecha_posterior->make();
     rueda_derecha_posterior->aplicaTG(m);
+
+    // Make/transformacion de rueda izquierda delantera.
     rueda_izquierda_delantera->make();
     rueda_izquierda_delantera->aplicaTG(m);
+
+    // Make/transformacion de rueda derecha delantera.
     rueda_derecha_delantera->make();
     rueda_derecha_delantera->aplicaTG(m);
+
+    // Make/transformacion de carroceria.
     carroceria->make();
     carroceria->aplicaTG(m);
-    //make();
-    //aplicaTG(m);
-
-
-    //mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale(escalaX, escalaX, escalaX)*Translate(+1.93, -0.26, 2.16);
 }
 
+// Getter de la rueda izquierda posterior.
 Roda * Cotxe:: get_rueda_izquierda_posterior(){
     return rueda_izquierda_posterior;
 }
+
+// Getter de la rueda derecha posterior.
 Roda * Cotxe:: get_rueda_derecha_posterior(){
     return rueda_derecha_posterior;
 }
+
+// Getter de la rueda izquierda delantera.
 Roda * Cotxe:: get_rueda_izquierda_delantera(){
     return rueda_izquierda_delantera;
 }
+
+// Getter de la rueda derecha delantera.
 Roda * Cotxe:: get_rueda_derecha_delantera(){
     return rueda_derecha_delantera;
 }
+
+// Getter de la carroceria.
 Carroceria * Cotxe:: get_carroceria(){
     return carroceria;
 }
 
-void Cotxe::readObj(QString filename)
-{
+// Lectura del coche por partes a partir de un archivo de texto.
+// Se generan vertices y caras de ruedas y carroceria.
+void Cotxe::readObj(QString filename){
     FILE *fp = fopen(filename.toLocal8Bit(),"rb");
-    if (!fp)
-    {
+    if (!fp) {
         cout << "No puc obrir el fitxer " << endl;
-    }
-    else {
-
+    } else {
         int vindexAct = 0;
         int vindexUlt = 0;
 
@@ -130,61 +142,62 @@ void Cotxe::readObj(QString filename)
                   y/=w;
                   z/=w;
                 }
-                // S'afegeix el vertex a l'objecte
+
+                // Dependiendo de la rueda elegida, se añaden vertices a su objeto.
                 switch (rueda) {
-                case '1':
-                    rueda_izquierda_posterior->add_vector(point4(x, y, z, 1));
-                    //rueda_izquierda_posterior->vertexs.push_back();
-                    break;
-                case '2':
-                    rueda_derecha_posterior->add_vector(point4(x, y, z, 1));
-                    //rueda_izquierda_posterior->vertexs.push_back();
-                    break;
-                case '3':
-                    rueda_izquierda_delantera->add_vector(point4(x, y, z, 1));
-                    //rueda_izquierda_posterior->vertexs.push_back();
-                    break;
-                case '4':
-                    rueda_derecha_delantera->add_vector(point4(x, y, z, 1));
-                    //rueda_izquierda_posterior->vertexs.push_back();
-                    break;
-                case '5':
-                    carroceria->add_vector(point4(x, y, z, 1));
-                    break;
-                default:
-                    this->vertexs.push_back(point4(x, y, z, 1));
-                    break;
+                    case '1':
+                        rueda_izquierda_posterior->add_vector(point4(x, y-0.2, z, 1));
+                        break;
+                    case '2':
+                        rueda_derecha_posterior->add_vector(point4(x, y-0.2, z, 1));
+                        break;
+                    case '3':
+                        rueda_izquierda_delantera->add_vector(point4(x, y-0.2, z, 1));
+                        break;
+                    case '4':
+                        rueda_derecha_delantera->add_vector(point4(x, y-0.2, z, 1));
+                        break;
+                    case '5':
+                        carroceria->add_vector(point4(x, y-0.2, z, 1));
+                        break;
+                    default:
+                        // En este caso no se corresponde ni a ruedas ni a carroceria.
+                        // Añadimos los vertices al propio objeto coche para tenerlos
+                        // controlados, aunque no hagamos nada con ellos.
+                        this->vertexs.push_back(point4(x, y-0.2, z, 1));
+                        break;
                 }
                 vindexAct++;
             }
-            else if (!strcmp (first_word, "vn")) {
-            }
-            else if (!strcmp (first_word, "vt")) {
-            }
+            else if (!strcmp (first_word, "vn")) {}
+            else if (!strcmp (first_word, "vt")) {}
             else if (!strcmp (first_word, "f")) {
-                // S'afegeix la cara a l'objecte
+                // Dependiendo de la rueda escogida, se generan las caras de la misma.
                 switch (rueda) {
-                case '1':
-                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_posterior,vindexUlt);
-                    break;
-                case '2':
-                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_derecha_posterior,vindexUlt);
-                    break;
-                case '3':
-                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_delantera,vindexUlt);
-                    break;
-                case '4':
-                    construeix_cara(&ReadFile::words[1], nwords-1, rueda_derecha_delantera,vindexUlt);
-                    break;
-                case '5':
-                    construeix_cara(&ReadFile::words[1], nwords-1, carroceria,vindexUlt);
-                    break;
-                default:
-                    construeix_cara(&ReadFile::words[1], nwords-1, this,vindexUlt);
-                    break;
+                    case '1':
+                        construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_posterior, vindexUlt);
+                        break;
+                    case '2':
+                        construeix_cara(&ReadFile::words[1], nwords-1, rueda_derecha_posterior, vindexUlt);
+                        break;
+                    case '3':
+                        construeix_cara(&ReadFile::words[1], nwords-1, rueda_izquierda_delantera, vindexUlt);
+                        break;
+                    case '4':
+                        construeix_cara(&ReadFile::words[1], nwords-1, rueda_derecha_delantera, vindexUlt);
+                        break;
+                    case '5':
+                        construeix_cara(&ReadFile::words[1], nwords-1, carroceria, vindexUlt);
+                        break;
+                    default:
+                        // En este caso no se corresponde ni a ruedas ni a carroceria.
+                        // Añadimos las caraws al propio objeto coche para tenerlas
+                        // controladas, aunque no hagamos nada con ellas.
+                        construeix_cara(&ReadFile::words[1], nwords-1, this, vindexUlt);
+                        break;
                 }
             }
-            // added
+
             else if (!strcmp (first_word, "mtllib")) {
                 //read_mtllib (&words[1], nwords-1, matlib, filename);
             }
@@ -194,31 +207,35 @@ void Cotxe::readObj(QString filename)
                 //currentMaterial = matlib.index(words[1]);
             }
             else if (!strcmp (first_word, "o")) {
-                //cada nou objecte s'actualitza aquest Ã­ndex
+                // Pasamos a leer un nuevo objeto.
                 vindexUlt = vindexAct;
 
+                // Analizamos la palabra que acompaña a la 'o', que determina
+                // el objeto a leer.
                 char * second_word = ReadFile::words[1];
-                if(!strcmp(second_word,"Roda_Esquerra_Posterior_Untitled")){
-                    cout << "Rueda posterior Izquierda" << endl;
-                    rueda_izquierda_posterior=new Roda(1);
-                    rueda='1';
-                }else if(!strcmp(second_word,"Roda_Dreta_Posterior_04")){
-                    cout << "Roda_Dreta_Posterior_04" << endl;
-                    rueda_derecha_posterior=new Roda(2);
-                    rueda='2';
-                }else if(!strcmp(second_word,"Roda_Esquerra_Davantera_02")){
-                    cout << "Roda_Esquerra_Davantera_02" << endl;
-                    rueda_izquierda_delantera=new Roda(3);
-                    rueda='3';
-                }else if(!strcmp(second_word,"Roda_Dreta_Davantera_03")){
-                    cout << "Roda_Dreta_Davantera_03" << endl;
-                    rueda_derecha_delantera=new Roda(4);
-                    rueda='4';
-                }else if(!strcmp(second_word,"Carrosseria_00")){
-                    cout << "Carrosseria_00" << endl;
+
+                if (!strcmp(second_word,"Roda_Esquerra_Posterior_Untitled")) {
+                    cout << "Leyendo: Rueda posterior Izquierda" << endl;
+                    rueda_izquierda_posterior = new Roda(1);
+                    rueda = '1';
+                } else if (!strcmp(second_word,"Roda_Dreta_Posterior_04")) {
+                    cout << "Leyendo: Roda_Dreta_Posterior_04" << endl;
+                    rueda_derecha_posterior = new Roda(2);
+                    rueda = '2';
+                } else if (!strcmp(second_word,"Roda_Esquerra_Davantera_02")) {
+                    cout << "Leyendo: Roda_Esquerra_Davantera_02" << endl;
+                    rueda_izquierda_delantera = new Roda(3);
+                    rueda = '3';
+                } else if (!strcmp(second_word,"Roda_Dreta_Davantera_03")) {
+                    cout << "Leyendo: Roda_Dreta_Davantera_03" << endl;
+                    rueda_derecha_delantera = new Roda(4);
+                    rueda = '4';
+                } else if (!strcmp(second_word,"Carrosseria_00")) {
+                    cout << "Leyendo: Carrosseria_00" << endl;
                     carroceria = new Carroceria();
-                    rueda='5';
-                }else{
+                    rueda = '5';
+                } else {
+                    // Caso raro.
                     rueda = '6';
                     cout << "Rueda a cero" << endl;
                 }
@@ -227,14 +244,13 @@ void Cotxe::readObj(QString filename)
             else {
                 //fprintf (stderr, "Do not recognize: '%s'\n", str_orig);
             }
-
             //free(words);
         }
     }
 
 }
 
-
+// El coche avanza. Velocidad de crucero. Las ruedas no giran.
 void Cotxe::forward(){
     this->rueda_izquierda_delantera->roda_forward(0.3);
     this->rueda_derecha_delantera->roda_forward(0.3);
@@ -243,6 +259,7 @@ void Cotxe::forward(){
     this->carroceria->carroceria_forward(0.3);
 }
 
+// El coche va marcha atras. Velocidad de crucero. Las ruedas no giran.
 void Cotxe::backward(){
     this->rueda_izquierda_delantera->roda_backward(0.3);
     this->rueda_derecha_delantera->roda_backward(0.3);
@@ -251,13 +268,6 @@ void Cotxe::backward(){
     this->carroceria->carroceria_backward(0.3);
 }
 
-void Cotxe::turnleft(){
-
-    // Metode a implementar per fer el moviment del cotxe
-
-}
-
-void Cotxe::turnright(){
-    // Metode a implementar per fer el moviment del cotxe
-
-}
+// Metodos no implementados.
+void Cotxe::turnleft(){}
+void Cotxe::turnright(){}

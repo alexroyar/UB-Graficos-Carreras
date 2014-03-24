@@ -120,6 +120,9 @@ void GLWidget::newObjecte(Objecte * obj)
 
 void GLWidget::newObstacle(int nombre)
 {
+    Obstaculo *obs;
+    obs= new Obstaculo();
+    newObjecte(obs);
     // Metode que serveix per a donar d'alta un obstacle amb el punt original a xorig, yorig,zorig
     // d'una certa mida
     // ha d'estar a les ys del pla de la terra
@@ -147,7 +150,7 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
 
     // parametres que posen l'objecte cotxe al punt original xorig, yorig, zorig i d'una certa mida
     // Cal modificar-lo per a que es posicioni a la Y correcte
-    float yorig = 2;
+    float yorig = -0.3;
 
     obj = new Cotxe(fichero, mida, xorig, yorig, zorig, 0., 0., 0.,xdirec, ydirec, zdirec);
     newObjecte(obj);
@@ -219,6 +222,9 @@ void GLWidget::paintGL()
     }
     if (esc->carroceria!=NULL) {
         esc->carroceria->aplicaTGCentrat(transform);
+    }
+    if(esc->obstaculo!=NULL){
+        esc->obstaculo->aplicaTGCentrat(transform);
     }
     esc->draw();
 }

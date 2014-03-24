@@ -38,7 +38,6 @@ public:
     virtual void readObj(QString filename);
 
 private:
-
     static const int NumVerticesF = 100000;
     static const int NumCares = 300000;
 

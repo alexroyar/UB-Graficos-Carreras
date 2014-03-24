@@ -19,6 +19,7 @@
 #include <terra.h>
 #include <carroceria.h>
 #include <roda.h>
+#include <obstaculo.h>
 
 using namespace std;
 
@@ -46,6 +47,7 @@ public:
     Roda  *rueda_i_p,*rueda_d_p,*rueda_i_d,*rueda_d_d;
     Roda *rueda;
     Carroceria *carroceria;
+    Obstaculo *obstaculo;
 
 };
 
