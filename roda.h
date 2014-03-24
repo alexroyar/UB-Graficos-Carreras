@@ -11,6 +11,8 @@ public:
     Roda(int pos);
     int get_posicion();
     void add_vector(point4 p);
+    void roda_forward(float num);
+    void roda_backward(float num);
     static const int NumVerticesR = 8000;
 };
 

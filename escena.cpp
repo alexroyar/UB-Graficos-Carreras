@@ -138,28 +138,20 @@ void escena::draw() {
 }
 
 void escena::reset() {
+    double escalaX = 1.0 / 4.6;
+    float tamanio = 1.0;
+    mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale((escalaX/tamanio),(escalaX/tamanio),(escalaX/tamanio))*Translate(+1.93, -0.26, 2.16);
 
     // Metode a modificar
 
-    if (cotxe!=NULL)
-        cotxe->make();
-    if (terra!=NULL)
-        terra->make();
+    if (cotxe!=NULL){cotxe->make();cotxe->aplicaTG(m);}
 
-    if (carroceria!=NULL)
-        carroceria->make();
-
-    if (rueda_d_p!=NULL)
-        rueda_d_p->make();
-
-    if (rueda_i_p!=NULL)
-        rueda_i_p->make();
-
-    if (rueda_d_d!=NULL)
-        rueda_d_d->make();
-
-    if (rueda_i_d!=NULL)
-        rueda_i_d->make();
+    if (terra!=NULL){terra->make(); }
+    if (carroceria!=NULL){carroceria->make();carroceria->aplicaTG(m);}
+    if (rueda_d_p!=NULL){rueda_d_p->make();rueda_d_p->aplicaTG(m);}
+    if (rueda_i_p!=NULL){rueda_i_p->make();rueda_i_p->aplicaTG(m);}
+    if (rueda_d_d!=NULL){rueda_d_d->make();rueda_d_d->aplicaTG(m);}
+    if (rueda_i_d!=NULL){rueda_i_d->make();rueda_i_d->aplicaTG(m);}
 
 }
 

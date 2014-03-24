@@ -236,15 +236,23 @@ void Cotxe::readObj(QString filename)
 
 
 void Cotxe::forward(){
-    // Metode a implementar per fer el moviment del cotxe
+    this->rueda_izquierda_delantera->roda_forward(0.3);
+    this->rueda_derecha_delantera->roda_forward(0.3);
+    this->rueda_derecha_posterior->roda_forward(0.3);
+    this->rueda_izquierda_posterior->roda_forward(0.3);
+    this->carroceria->carroceria_forward(0.3);
 }
 
 void Cotxe::backward(){
-    // Metode a implementar per fer el moviment del cotxe
-
+    this->rueda_izquierda_delantera->roda_backward(0.3);
+    this->rueda_derecha_delantera->roda_backward(0.3);
+    this->rueda_derecha_posterior->roda_backward(0.3);
+    this->rueda_izquierda_posterior->roda_backward(0.3);
+    this->carroceria->carroceria_backward(0.3);
 }
 
 void Cotxe::turnleft(){
+
     // Metode a implementar per fer el moviment del cotxe
 
 }
