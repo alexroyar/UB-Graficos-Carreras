@@ -11,6 +11,8 @@ Cotxe::Cotxe(QString n) : Objecte(NumVerticesF)
     yorig = 0;
     zorig = 0;
 
+    rueda = '0';
+
     xRot = 0;
     yRot = 0;
     zRot = 0;

@@ -78,7 +78,7 @@ void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile)
 void GLWidget::initShadersGPU()
 {
     // Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
-    InitShader( "../Carreres/vshader11.glsl", "../Carreres/fshader11.glsl" );
+    InitShader( "../UB-Graficos-Carreras/vshader11.glsl", "../UB-Graficos-Carreras/fshader11.glsl" );
 
 }
 

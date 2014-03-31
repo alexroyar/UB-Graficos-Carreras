@@ -3,6 +3,9 @@
 // Constructor del suelo.
 Terra::Terra(float amplaria, float profunditat, float y):Objecte(NumVerticesT) {
     std::cout<<"Construyendo el suelo.\n";
+
+    vertex_color = color4( 1.0, 0.0, 0.0, 1.0 );
+
     vertexs.push_back(point4(-(amplaria/2),y,(amplaria/2),1.0));
     vertexs.push_back(point4((amplaria/2),y,(amplaria/2),1.0));
     vertexs.push_back(point4(-(amplaria/2),y,-(amplaria/2),1.0));

@@ -8,7 +8,7 @@ class Terra :public Objecte
 public:
     Terra(float amplaria, float profunditat, float y);
 
-    color4 vertex_color = color4( 1.0, 0.0, 0.0, 1.0 );
+    color4 vertex_color;
     static const int NumVerticesT = 6;
 
 

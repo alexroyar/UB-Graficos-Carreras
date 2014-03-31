@@ -3,6 +3,9 @@
 // Constructor de obstaculo.
 Obstaculo::Obstaculo():Objecte(NumVerticesO) {
     std :: cout << "Construyendo un obstaculo\n";
+
+    vertex_color = color4( 1.0, 1.0, 0.0, 1.0 );
+
     vertexs.push_back(point4(-3.5, 0.0,  0.5, 1.0));
     vertexs.push_back(point4(-3.5, 1.0,  0.5, 1.0));
     vertexs.push_back(point4(-2.5, 1.0,  0.5, 1.0));

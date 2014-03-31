@@ -21,7 +21,7 @@ public:
     Roda *rueda_izquierda_posterior,*rueda_izquierda_delantera;
     Roda *rueda_derecha_posterior,*rueda_derecha_delantera;
     Carroceria *carroceria;
-    char rueda='0';
+    char rueda;
 
     vector<Roda*> get_ruedas();
     Roda * get_rueda_izquierda_posterior();
