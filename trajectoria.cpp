@@ -1,5 +1,5 @@
 #include "trajectoria.h"
 
-trajectoria::trajectoria()
+trajectoria::trajectoria(vec4 plano, int sampling)
 {
 }

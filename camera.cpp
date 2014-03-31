@@ -57,22 +57,8 @@ void Camera::CalculaMatriuModelView()
 void Camera::CalculaMatriuProjection()
 {
     // CAL IMPLEMENTAR
-    proj = identity()
+    proj = identity();
 
-}
-
-
-void Camera::CalculWindow( Capsa3D c)
-{
-    // CAL IMPLEMENTAR
-    
-    wd.pmin.x = -1;
-    wd.pmin.y = -1;
-    
-    wd.a = 2;
-    wd.h = 2;
-    
-    
 }
 
 void Camera::setViewport(int x, int y, int a, int h)
