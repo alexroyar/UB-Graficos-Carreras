@@ -22,15 +22,13 @@ typedef enum {YAMUNT = 0, YABAIX = 1} Orienty;
 typedef enum {PARALLELA = 0, PERSPECTIVA = 1} TipProj; 
 
 
-typedef struct
- {
+typedef struct {
   double      angy, angx, angz;  /* angles de gir del sistema de coords obser */
   vec4        vrp;               /* view reference point */
   vec4        obs;               /* posicio de l'observador */
  } VisuSystem;
 
-typedef struct  
- {
+typedef struct {
   TipProj    proj;           /* tipus de proj: 0 paral 1 perpec */
   double     d;              /* distancia observador a pla proj */
   double     dant, dpost;    /* distancies al pla de retallat ante i post desde l'observador*/
@@ -50,12 +48,18 @@ public:
     explicit Camera();
     ~Camera() {}
 
+    // Inicialitza els atributs inicials de la càmera, entre els quals
+    // és necessari definir el viewport i el vrp.
     void ini(int a, int h, Capsa3D c);
 
+    // Connecta les matrius de model-view (modView) i de projection (proj)
+    // de la CPU amb les matrius de la GPU usades en el vertex shader.
     void toGPU(QGLShaderProgram *program);
 
-
+    // Calcula la matriu model-view (modView) a partir dels atributs de la càmera.
     void CalculaMatriuModelView();
+
+    // Calcula la matriu projection (proj) a partir dels atributs de la càmera.
     void CalculaMatriuProjection();
     void CalculWindow(Capsa3D);
     void CalculWindowAmbRetallat();
@@ -75,7 +79,13 @@ public:
     Capsa2D  CapsaMinCont2DXYVert( vec4 *v, int nv);
 
     void setViewport(int x, int y, int a, int h);
+
+    // Connecta la matriu model-view (modView) de la CPU amb la matriu de la
+    // GPU (model-view) usada en el vertex shader.
     void setModelView(QGLShaderProgram *program, mat4 m);
+
+    // Connecta la matriu de projecció (proj) de la CPU amb la matriu de la
+    // GPU (projection) usada en el vertex shader.
     void setProjection(QGLShaderProgram *program, mat4 p);
 
     void rotate(Capsa3D c);
@@ -88,7 +98,6 @@ public:
     Capsa2D wd;	      /* Window                    */
     Capsa2D vp;       /* Viewport                  */
 
-
 private:
     void VertexCapsa3D(Capsa3D capsaMinima, vec4 vaux[8]);
 
@@ -97,7 +106,6 @@ private:
     GLuint  model_view;  // model-view matrix uniform shader variable (GPU)
     GLuint  projection;  // projection matrix uniform shader variable (GPU)
 };
-
 
 #endif
 

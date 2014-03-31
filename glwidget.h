@@ -29,7 +29,6 @@ public:
     void newTerra(float amplaria, float profunditat, float y);
 
     void resetView();
-
 protected:
     void initializeGL();
     void paintGL();

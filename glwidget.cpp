@@ -35,7 +35,7 @@ GLWidget::~GLWidget()
     makeCurrent();
 }
 
-//  Metode per a carregar de fitxers el vertex i el fragment shader
+/*  Metode per a carregar de fitxers el vertex i el fragment shader
 void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile)
 {
 
@@ -72,7 +72,7 @@ void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile)
 
     program->bind();
 
-}
+}*/
 
 // Metode per inicialitzar els shaders de l'aplicacio
 void GLWidget::initShadersGPU()
@@ -326,4 +326,44 @@ void GLWidget::keyReleaseEvent(QKeyEvent *event)
 {
     // Metode a implementar en el cas que es doni velocitat al cotxe
 
+}
+void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
+    struct Shader {
+        const char* filename;
+        GLenum type;
+        GLchar* source;
+    }
+
+    shaders[2] = {
+        { vShaderFile, GL_VERTEX_SHADER, NULL },
+        { fShaderFile, GL_FRAGMENT_SHADER, NULL }
+    };
+
+    QGLShader *vshader = new QGLShader(QGLShader::Vertex, this);
+    QGLShader *fshader = new QGLShader(QGLShader::Fragment, this);
+
+    // Es llegeixen els dos shaders: el vertex i el fragment shader
+    for ( int i = 0; i < 2; ++i ) {
+        Shader& s = shaders[i];
+        s.source = Common::readShaderSource( s.filename );
+        if ( shaders[i].source == NULL ) {
+            std::cerr << "Failed to read " << s.filename << std::endl;
+            exit( EXIT_FAILURE );
+        }
+    }
+
+    // Es compilen els programes en temps d'execució de l'aplicació
+    vshader->compileSourceCode(shaders[0].source);
+    fshader->compileSourceCode(shaders[1].source);
+
+    // S'afegeixen a una variable de classe
+    program = new QGLShaderProgram(this);
+    program->addShader(vshader);
+    program->addShader(fshader);
+
+    // Es munta el programa
+    program->link();
+
+    // Es vincula el programa al context de GL per a ser executat amb les comandes de GL
+    program->bind();
 }

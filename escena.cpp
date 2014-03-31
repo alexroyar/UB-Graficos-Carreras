@@ -177,3 +177,6 @@ void escena::reset() {
     }
 }
 
+
+
+

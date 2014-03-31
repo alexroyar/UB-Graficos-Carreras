@@ -38,6 +38,13 @@ public:
     void draw();
     void CapsaMinCont3DEscena();
 
+    // P2
+    void actualitzaCameraPanoramica(bool clip);
+    void resetCameraPanoramica();
+    void actualitzaCameraThirdPerson();
+    void iniLookAtCotxe();
+
+
     // Capsa contenedora de l'escena
     Capsa3D capsaMinima;
 
@@ -48,6 +55,7 @@ public:
     Roda *rueda;
     Carroceria *carroceria;
     Obstaculo *obstaculo;
+
 
 };
 
