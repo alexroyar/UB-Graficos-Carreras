@@ -36,6 +36,12 @@ public:
     point4 direction;
 
     virtual void readObj(QString filename);
+    virtual void make();
+    virtual void aplicaTG(mat4 m);
+    virtual void aplicaTGCentrat(mat4 m);
+    virtual void draw();
+    virtual void toGPU(QGLShaderProgram *p);
+
 
 private:
     static const int NumVerticesF = 100000;

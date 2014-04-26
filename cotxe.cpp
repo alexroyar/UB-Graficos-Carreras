@@ -44,25 +44,9 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     double escalaX = 1.0 / 4.6;
     mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale((escalaX/tamanio),(escalaX/tamanio),(escalaX/tamanio))*Translate(+1.93, -0.26, 2.16);
 
-    // Make/transformacion de rueda izquierda posterior.
-    rueda_izquierda_posterior->make();
-    rueda_izquierda_posterior->aplicaTG(m);
+    make();
+    aplicaTG(m);
 
-    // Make/transformacion de rueda derecha posterior.
-    rueda_derecha_posterior->make();
-    rueda_derecha_posterior->aplicaTG(m);
-
-    // Make/transformacion de rueda izquierda delantera.
-    rueda_izquierda_delantera->make();
-    rueda_izquierda_delantera->aplicaTG(m);
-
-    // Make/transformacion de rueda derecha delantera.
-    rueda_derecha_delantera->make();
-    rueda_derecha_delantera->aplicaTG(m);
-
-    // Make/transformacion de carroceria.
-    carroceria->make();
-    carroceria->aplicaTG(m);
 }
 
 // Getter de la rueda izquierda posterior.
@@ -88,6 +72,51 @@ Roda * Cotxe:: get_rueda_derecha_delantera(){
 // Getter de la carroceria.
 Carroceria * Cotxe:: get_carroceria(){
     return carroceria;
+}
+
+// Make de ruedas y carrocerías.
+void Cotxe::make(){
+    this->rueda_derecha_delantera->make();
+    this->rueda_derecha_posterior->make();
+    this->rueda_izquierda_delantera->make();
+    this->rueda_izquierda_posterior->make();
+    this->carroceria->make();
+}
+
+// Draw de ruedas y carrocería.
+void Cotxe::draw(){
+    this->rueda_derecha_delantera->draw();
+    this->rueda_derecha_posterior->draw();
+    this->rueda_izquierda_delantera->draw();
+    this->rueda_izquierda_posterior->draw();
+    this->carroceria->draw();
+}
+
+// ToGPU de ruedas y carrocería.
+void Cotxe::toGPU(QGLShaderProgram *pr){
+    this->rueda_derecha_delantera->toGPU(pr);
+    this->rueda_derecha_posterior->toGPU(pr);
+    this->rueda_izquierda_delantera->toGPU(pr);
+    this->rueda_izquierda_posterior->toGPU(pr);
+    this->carroceria->toGPU(pr);
+}
+
+// AplicaTG de ruedas y carrocería.
+void Cotxe::aplicaTG(mat4 m){
+    this->rueda_derecha_delantera->aplicaTG(m);
+    this->rueda_derecha_posterior->aplicaTG(m);
+    this->rueda_izquierda_delantera->aplicaTG(m);
+    this->rueda_izquierda_posterior->aplicaTG(m);
+    this->carroceria->aplicaTG(m);
+}
+
+// AplicaTGCentrat de ruedas y carrocería.
+void Cotxe::aplicaTGCentrat(mat4 m){
+    this->rueda_derecha_delantera->aplicaTGCentrat(m);
+    this->rueda_derecha_posterior->aplicaTGCentrat(m);
+    this->rueda_izquierda_delantera->aplicaTGCentrat(m);
+    this->rueda_izquierda_posterior->aplicaTGCentrat(m);
+    this->carroceria->aplicaTGCentrat(m);
 }
 
 // Lectura del coche por partes a partir de un archivo de texto.
@@ -261,7 +290,7 @@ void Cotxe::forward(){
     this->carroceria->carroceria_forward(0.3);
 }
 
-// El coche va marcha atras. Velocidad de crucero. Las ruedas no giran.
+// El coche va marcha atrás. Velocidad de crucero. Las ruedas no giran.
 void Cotxe::backward(){
     this->rueda_izquierda_delantera->roda_backward(0.3);
     this->rueda_derecha_delantera->roda_backward(0.3);

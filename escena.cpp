@@ -10,19 +10,12 @@ escena::escena() {
     // Atributos:
     cotxe       = NULL;
     terra       = NULL;
-    rueda_i_p   = NULL;
-    rueda_d_p   = NULL;
-    rueda_d_d   = NULL;
-    rueda_i_d   = NULL;
-    rueda       = NULL;
-    carroceria  = NULL;
     obstaculo   = NULL;
 }
 
 // Destructor.
 escena::~escena() {
     printf("DESTRUCTOR!");
-
 }
 
 // Añadimos objetos a la escena.
@@ -37,33 +30,9 @@ void escena::addObjecte(Objecte *obj) {
         this->terra = (Terra*)obj;
     }
 
-    // Añadimos una carroceria.
-    if (dynamic_cast<Carroceria*>(obj)) {
-        this->carroceria = (Carroceria*)obj;
-    }
-
     // Añadimos un obstaculo.
     if(dynamic_cast<Obstaculo*>(obj)) {
         this->obstaculo = (Obstaculo*)obj;
-    }
-
-    // Añadimos una rueda.
-    if (dynamic_cast<Roda*>(obj)) {
-        this->rueda = (Roda*)obj;
-        switch (rueda->get_posicion()) {
-        case 1:
-            this->rueda_i_p=(Roda*)obj;
-            break;
-        case 2:
-            this->rueda_d_p=(Roda*)obj;
-            break;
-        case 3:
-            this->rueda_i_d=(Roda*)obj;
-            break;
-        case 4:
-            this->rueda_d_d=(Roda*)obj;
-            break;
-        }
     }
 }
 
@@ -76,17 +45,6 @@ void escena::aplicaTG(mat4 m) {
     if (cotxe!=NULL) cotxe->aplicaTG(m);
     //... al suelo.
     if (terra!=NULL) terra->aplicaTG(m);
-    //... a la rueda derecha posterior.
-    if (rueda_d_p!=NULL) rueda_d_p->aplicaTG(m);
-    //... a la rueda izquierda posterior.
-    if (rueda_i_p!=NULL) rueda_i_p->aplicaTG(m);
-    //... a la rueda derecha delantera.
-    if (rueda_d_d!=NULL) rueda_d_d->aplicaTG(m);
-    //... a la rueda izquierda delantera.
-    if (rueda_i_d!=NULL) rueda_i_d->aplicaTG(m);
-
-    //... a la carroceria.
-    if (carroceria!=NULL) carroceria->aplicaTG(m);
     //... a un obstaculo.
     if (obstaculo!=NULL) obstaculo->aplicaTG(m);
 }
@@ -97,13 +55,6 @@ void escena::aplicaTGCentrat(mat4 m) {
     if (cotxe!=NULL) cotxe->aplicaTGCentrat(m);
     //... al suelo.
     if (terra!=NULL) terra->aplicaTGCentrat(m);
-    //... a la carroceria.
-    if (carroceria!=NULL) carroceria->aplicaTGCentrat(m);
-    //... a ruedas varias.
-    if (rueda_i_p!=NULL) rueda_i_p->aplicaTGCentrat(m);
-    if (rueda_d_p!=NULL) rueda_d_p->aplicaTGCentrat(m);
-    if (rueda_d_d!=NULL) rueda_d_d->aplicaTGCentrat(m);
-    if (rueda_i_d!=NULL) rueda_i_d->aplicaTGCentrat(m);
     //... a un obstaculo.
     if (obstaculo!=NULL) obstaculo->aplicaTGCentrat(m);
 
@@ -115,13 +66,6 @@ void escena::draw() {
     if (cotxe!=NULL) cotxe->draw();
     //... del suelo.
     if (terra!=NULL) terra->draw();
-    //... de la carroceria.
-    if (carroceria!=NULL) carroceria->draw();
-    //... de las ruedas.
-    if (rueda_d_p!=NULL) rueda_d_p->draw();
-    if (rueda_i_p!=NULL) rueda_i_p->draw();
-    if (rueda_d_d!=NULL) rueda_d_d->draw();
-    if (rueda_i_d!=NULL) rueda_i_d->draw();
     //... de un obstaculo.
     if (obstaculo!=NULL) obstaculo->draw();
 }
@@ -141,33 +85,6 @@ void escena::reset() {
     // Suelo.
     if (terra!=NULL) {
         terra->make();
-    }
-
-    // Carroceria.
-    if (carroceria != NULL) {
-        carroceria->make();
-        carroceria->aplicaTG(m);
-    }
-
-    // Ruedas.
-    if (rueda_d_p != NULL) {
-        rueda_d_p->make();
-        rueda_d_p->aplicaTG(m);
-    }
-
-    if (rueda_i_p != NULL) {
-        rueda_i_p->make();
-        rueda_i_p->aplicaTG(m);
-    }
-
-    if (rueda_d_d != NULL) {
-        rueda_d_d->make();
-        rueda_d_d->aplicaTG(m);
-    }
-
-    if (rueda_i_d != NULL) {
-        rueda_i_d->make();
-        rueda_i_d->aplicaTG(m);
     }
 
     // Obstaculo.

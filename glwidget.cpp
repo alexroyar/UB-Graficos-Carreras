@@ -111,8 +111,15 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
 
 void GLWidget::newObjecte(Objecte * obj)
 {
+    cout << "new object";
     adaptaObjecteTamanyWidget(obj);
-    obj->toGPU(program);
+
+    if (dynamic_cast<Cotxe*>(obj)) {
+        Cotxe* c = (Cotxe*)obj;
+        c->toGPU(program);
+    } else {
+        obj->toGPU(program);
+    }
     esc->addObjecte(obj);
 
     updateGL();
@@ -154,12 +161,6 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
 
     obj = new Cotxe(fichero, mida, xorig, yorig, zorig, 0., 0., 0.,xdirec, ydirec, zdirec);
     newObjecte(obj);
-
-    newObjecte(obj->get_rueda_izquierda_posterior());
-    newObjecte(obj->get_rueda_derecha_posterior());
-    newObjecte(obj->get_rueda_izquierda_delantera());
-    newObjecte(obj->get_rueda_derecha_delantera());
-    newObjecte(obj->get_carroceria());
 }
 
 void GLWidget::initializeGL()
@@ -205,24 +206,11 @@ void GLWidget::paintGL()
     if (esc->cotxe!=NULL) {
         esc->cotxe->aplicaTGCentrat(transform);
     }
+
     if (esc->terra!=NULL) {
         esc->terra->aplicaTGCentrat(transform);
     }
-    if (esc->rueda_d_p!=NULL) {
-        esc->rueda_d_p->aplicaTGCentrat(transform);
-    }
-    if (esc->rueda_i_p!=NULL) {
-        esc->rueda_i_p->aplicaTGCentrat(transform);
-    }
-    if (esc->rueda_i_d!=NULL) {
-        esc->rueda_i_d->aplicaTGCentrat(transform);
-    }
-    if (esc->rueda_d_d!=NULL) {
-        esc->rueda_d_d->aplicaTGCentrat(transform);
-    }
-    if (esc->carroceria!=NULL) {
-        esc->carroceria->aplicaTGCentrat(transform);
-    }
+
     if(esc->obstaculo!=NULL){
         esc->obstaculo->aplicaTGCentrat(transform);
     }

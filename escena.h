@@ -4,16 +4,11 @@
 #include <cmath>
 #include <iostream>
 #include <stdlib.h>
-
 #include <list>
 #include <vector>
 #include <string>
 #include <stdio.h>
-
-
 #include <Common.h>
-
-
 #include <objecte.h>
 #include <cotxe.h>
 #include <terra.h>
@@ -23,8 +18,8 @@
 
 using namespace std;
 
-class escena
-{
+class escena {
+
 public:
     escena();
     ~escena();
@@ -44,9 +39,6 @@ public:
     // Objectes de l'escena: a modificar. Ara nomes té un objecte. Cal afegir un conjunt d'objectes
     Cotxe *cotxe;
     Terra *terra;
-    Roda  *rueda_i_p,*rueda_d_p,*rueda_i_d,*rueda_d_d;
-    Roda *rueda;
-    Carroceria *carroceria;
     Obstaculo *obstaculo;
 
 };
